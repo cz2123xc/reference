@@ -31,8 +31,23 @@ class PostControllerTest {
                                 .content("{\"title\":\"Hello World!\", \"content\":\"내용 입니다.\"}")
                 )
                 .andExpect(status().isOk())
-                .andExpect(content().string("Hello World!"))
+                .andExpect(content().string("{}"))
                 .andDo(print());
     }
+
+    @Test
+    @DisplayName("/post 요청시 title 값은 필수다.")
+    void test2() throws Exception {
+
+        // excepted
+        mockMvc.perform(post("/posts")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"title\": null, \"content\":\"내용 입니다.\"}")
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("타이틀을 입력해주세요."))
+                .andDo(print());
+    }
+
 
 }
