@@ -16,18 +16,7 @@ import java.util.Map;
 public class PostController {
 
     @PostMapping ("/posts")
-    public Map<String, String> get(@RequestBody @Valid PostCreate postCreate, BindingResult result) {
-        if(result.hasErrors()) {
-            List<FieldError> fieldErrors = result.getFieldErrors();
-            FieldError firstFieldError = fieldErrors.get(0);
-            String fieldName = firstFieldError.getField();
-            String errorMessage = firstFieldError.getDefaultMessage();
-            log.error("{} : {}", fieldName, errorMessage);
-
-            Map<String, String> error = new HashMap<>();
-            error.put(fieldName, errorMessage);
-            return error;
-        }
+    public Map<String, String> get(@RequestBody @Valid PostCreate postCreate) {
         return Map.of();
     }
 
