@@ -2,6 +2,8 @@ package com.example.reference.api.controller;
 
 import com.example.reference.api.domain.Post;
 import com.example.reference.api.repository.PostRepository;
+import com.example.reference.api.request.PostCreate;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.http.MediaType.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -37,10 +40,18 @@ class PostControllerTest {
     @DisplayName("/post 요청시 Hello World! 반환 성공")
     void test() throws Exception {
 
+        // given
+        PostCreate request = new PostCreate("제목입니다.", "내용입니다.");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(request);
+
+        System.out.println(json);
+
         // excepted
         mockMvc.perform(post("/posts")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("{\"title\":\"Hello World!\", \"content\":\"내용 입니다.\"}")
+                        .contentType(APPLICATION_JSON)
+                        .content(json)
                 )
                 .andExpect(status().isOk())
                 .andExpect(content().string("{}"))
@@ -53,9 +64,9 @@ class PostControllerTest {
 
         // when
         mockMvc.perform(post("/posts")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"title\":\"제목입니다.\", \"content\":\"내용 입니다.\"}")
-        )
+                        .contentType(APPLICATION_JSON)
+                        .content("{\"title\":\"제목입니다.\", \"content\":\"내용 입니다.\"}")
+                )
                 .andExpect(status().isOk())
                 .andDo(print());
 
