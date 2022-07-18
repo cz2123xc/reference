@@ -1,9 +1,6 @@
 package com.example.reference.api.request;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 
@@ -18,9 +15,8 @@ public class PostCreate {
 
     @NotBlank(message = "내용을 입력해주세요.")
     private String content;
-
-
-
+    
+    @Builder // 빌더 패턴 사용
     public PostCreate(String title, String content) {
         this.title = title;
         this.content = content;
