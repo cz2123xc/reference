@@ -1,6 +1,7 @@
 package com.example.reference.api.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +24,7 @@ public class Post {
     private String content;
 
 
+    @Builder
     public Post(String title, String content) {
         this.title = title;
         this.content = content;
